@@ -3,7 +3,7 @@
 	const App = require( 'ext.vueTest.components' ).App;
 
 	Vue.configureCompat( {
-		MODE: 1
+		MODE: 3
 	} );
 
 	Vue.createMwApp( App )

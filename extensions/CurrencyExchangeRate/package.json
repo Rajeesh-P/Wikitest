@@ -1,0 +1,12 @@
+{
+	"name": "CurrencyExchangeRate",
+	"private": true,
+	"scripts": {},
+	"devDependencies": {
+		"@babel/preset-env": "^7.16.11",
+		"@vue/compat": "^3.2.27",
+		"@vue/compiler-sfc": "^3.2.27",
+		"jquery": "^3.6.0",
+		"vue": "^3.2.27"
+	}
+}

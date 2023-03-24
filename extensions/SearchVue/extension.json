@@ -1,0 +1,78 @@
+{
+	"name": "SearchVue",
+	"type": "other",
+	"author": [
+		"Cormac Parle",
+		"Joseph Seddon",
+		"Marco Fossati",
+		"Matthias Mullie",
+		"Mark Shenoda"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:SearchVue",
+	"descriptionmsg": "searchvue-desc",
+	"license-name": "GPL-2.0-or-later",
+	"requires": {
+		"MediaWiki": ">= 1.39.0"
+	},
+	"AutoloadNamespaces": {
+		"SearchVue\\": "src/"
+	},
+	"HookHandlers": {
+		"main": {
+			"class": "SearchVue\\Hooks"
+		}
+	},
+	"Hooks": {
+		"SpecialPageBeforeExecute": "main",
+		"SpecialSearchResults": "main",
+		"SpecialSearchResultsAppend": "main"
+	},
+	"MessagesDirs": {
+		"SearchVue": [
+			"i18n"
+		]
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "SearchVue"
+	},
+	"ResourceModules": {
+		"searchVue": {
+			"packageFiles": [
+				"resources/init.js",
+				"resources/components/App.vue",
+				"resources/components/QuickView.vue",
+				"resources/components/LeadImage.vue",
+				"resources/components/LeadText.vue",
+				"resources/store/index.js",
+				"resources/store/state.js",
+				"resources/store/mutations.js",
+				"resources/store/getters.js",
+				"resources/store/actions.js"
+			],
+			"dependencies": [
+				"mediawiki.Uri",
+				"mediawiki.jqueryMsg",
+				"mediawiki.api",
+				"mediawiki.storage",
+				"mediawiki.ForeignApi",
+				"mediawiki.user",
+				"vue",
+				"@vue/composition-api",
+				"vuex",
+				"web2017-polyfills"
+			],
+			"es6": true,
+			"targets": [
+				"desktop",
+				"mobile"
+			],
+			"messages": [
+				"quickview-close",
+				"quickview-previous",
+				"quickview-next"
+			]
+		}
+	},
+	"manifest_version": 2
+}

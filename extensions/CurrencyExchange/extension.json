@@ -1,0 +1,65 @@
+{
+	"name": "CurrencyExchange",
+	"author": [
+		"Rajeesh PM"
+	],
+	"url": "http://localhost/index.php/Special:CurrencyExchange",
+	"descriptionmsg": "Displays currency exchange rate",
+	"license-name": "GPL-2.0-or-later",
+	"type": "other",
+	"requires": {
+		"MediaWiki": ">= 1.32.0"
+	},
+	"AutoloadNamespaces": {
+		"MediaWiki\\Extension\\CurrencyExchange\\": "includes/"
+	},
+	"config": {},
+	"Hooks": {
+		"BeforePageDisplay": "MediaWiki\\Extension\\CurrencyExchange\\Hooks::onBeforePageDisplay"
+	},
+	"MessagesDirs": {
+		"CurrencyExchange": [
+			"i18n"
+		]
+	},
+	"ExtensionMessagesFiles": {
+		"CurrencyExchangeAlias": "CurrencyExchange.alias.php"
+	},
+	"SpecialPages": {
+		"CurrencyExchange": "MediaWiki\\Extension\\CurrencyExchange\\SpecialCurrencyExchange"
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "resources",
+		"remoteExtPath": "CurrencyExchange/resources"
+	},
+	"ResourceModules": {
+		"ext.currencyExchange": {
+			"dependencies": [
+				"ext.currencyExchange.components",
+				"vue",
+				"mediawiki.api"
+			],
+			"messages": [],
+			"styles": [],
+			"scripts": [
+				"init.js"
+			]
+		},
+		"ext.currencyExchange.components": {
+			"dependencies": [
+				"mediawiki.language.names"
+			],
+			"messages": [
+				"vuetest-app-welcome",
+				"vuetest-app-intro"
+			],
+			"styles": [],
+			"packageFiles": [
+				"components/index.js",
+				"components/CurrencyExchange.vue"
+			]
+		}
+	},
+	"manifest_version": 2,
+	"es6": true
+}

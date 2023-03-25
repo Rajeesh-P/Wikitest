@@ -1,0 +1,12 @@
+{
+	"@metadata": {
+		"authors": [
+			"Your Name"
+		]
+	},
+	"vuetest": "Vue.js Sandbox",
+	"vuetest-desc": "Vue.js sandbox",
+	"vuetest-summary": "A place to test out Vue.js components and MediaWiki integration",
+	"vuetest-app-welcome": "Hello from Vue!",
+	"vuetest-app-intro": "Below are a series of example components to show how Vue.js can be used in MediaWiki. All component files can be found in the <code>resources/components</code> directory of this extension."
+}

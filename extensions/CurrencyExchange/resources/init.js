@@ -3,7 +3,8 @@
 	const App = require( 'ext.currencyExchange.components' ).App;
 
 	Vue.configureCompat( {
-		MODE: 3
+		MODE: 3,
+		ATTR_FALSE_VALUE: false
 	} );
 
 	Vue.createMwApp( App )

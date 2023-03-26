@@ -7,10 +7,31 @@
 		<main class="sandbox-main">
 			<cdx-card>
 				<template #description>
+					<div v-if="isError">
+						<cdx-message
+							v-for="( error ) in errors"
+							:key = "error"
+							dismiss-button-label="Close"
+							:fade-in="true"
+							:auto-dismiss="true"
+							:display-time="5000"
+						>
+						{{ error }}
+						</cdx-message>
+					</div>
+
 					<div class="amount-div">
 						<label class="amount-label" for="amount">Amount</label>
-						<input class="amount-text" v-model="amount" placeholder="Enter the amount" />
-						<cdx-button @click="getExchangeRates" class="btn" action="progressive" weight="primary">Display</cdx-button>
+						<input class="amount-text" v-model.number="amount" placeholder="Enter the amount" />
+						<cdx-button 
+							:disabled="btnDisabled" 
+							class="btn" 
+							action="progressive" 
+							weight="primary"
+							@click="getExchangeRates" 
+							>
+							Display
+						</cdx-button>
 					</div>
 					<div>
 						<table>
@@ -44,16 +65,15 @@
 
 <script>
 
-const { CdxButton, CdxCard } = require( '@wikimedia/codex' );
-const { defineComponent } = require( 'vue' );
+const { CdxButton, CdxCard, CdxMessage } = require( '@wikimedia/codex' );
 
-
+// @vue/component
 module.exports = exports = {
 	name: 'CurrencyExchange',
-	components:{
+	components: {
 		CdxButton,
 		CdxCard,
-		defineComponent
+		CdxMessage
 	},
 	data() {
 		return {
@@ -61,89 +81,119 @@ module.exports = exports = {
 			usdtoczk: 0,
 			eurtoczk: 0,
 			gbptoczk: 0,
-			apiKey: "nWGZPnOhKSFp72bS5E3KsO8DMScc5AS7",
-			errors: []
+			apiKey: 'nWGZPnOhKSFp72bS5E3KsO8DMScc5AS7',
+			errors: [],
+			isError: false,
+			btnDisabled: false
 		};
-	},
-	mounted() {
-		setInterval(() => {
-			this.getExchangeRates()
-		}, 60000);
 	},
 	methods:{
 		getExchangeRates() {
-			if(this.amount != 0) {
+			this.btnDisabled = true;
+			this.isError = false;
+			this.errors = [];
+			if( (this.amount !== 0) && (/\d/.test(this.amount))) {
 				this.getExchangeRateforUSDToCZK()
 				this.getExchangeRateforEURToCZK()
 				this.getExchangeRateforGBPToCZK()
+			} else {
+				this.isError = true;
+				this.errors.push("Enter number for currency")
+				this.btnDisabled = false;
 			}
 		},
 
 		getExchangeRateforUSDToCZK() {
-			var myHeaders = new Headers();
+			let myHeaders = new Headers();
 			myHeaders.append("apikey", this.apiKey);
 
-			var requestOptions = {
+			let requestOptions = {
 				method: 'GET',
 				redirect: 'follow',
 				headers: myHeaders
 			};
 
-			var apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=USD&amount=" + this.amount;
+			let apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=USD&amount=" + this.amount;
 
 			fetch(apiUrl, requestOptions)
 				.then(response => response.json())
-  				.then(result => {
-					this.usdtoczk = (result.success == true) ? result.result : 0;
+  				.then((result) => {
+					this.usdtoczk = result.success == true ? result.result : 0;
+					if (result.error) {
+						this.errors.push(result.error.message);
+						this.isError = true;
+					}
+					this.btnDisabled = false;
 				})
-				.catch(error => {
-					this.errors.push(error.message)
+				.catch((error) => {
+					this.errors.push(error.message);
+					this.isError = true;
+					this.btnDisabled = false;
 				});
 		},
 
 		getExchangeRateforEURToCZK() {
-			var myHeaders = new Headers();
+			let myHeaders = new Headers();
 			myHeaders.append("apikey", this.apiKey);
 
-			var requestOptions = {
+			let requestOptions = {
 				method: 'GET',
 				redirect: 'follow',
 				headers: myHeaders
 			};
 
-			var apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=EUR&amount=" + this.amount;
+			let apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=EUR&amount=" + this.amount;
 
 			fetch(apiUrl, requestOptions)
 				.then(response => response.json())
-				.then(result => {
-					this.eurtoczk = (result.success == true) ? result.result : 0;
+				.then((result) => {
+					this.eurtoczk = result.success == true ? result.result : 0;
+					if (result.error) {
+						this.errors.push(result.error.message);
+						this.isError = true;
+					}
+					this.btnDisabled = false;
 				})
-				.catch(error => {
-					this.errors.push(error.message)
+				.catch((error) => {
+					this.errors.push(error.message);
+					this.isError = true;
+					this.btnDisabled = false;
 				});
 		},
 
 		getExchangeRateforGBPToCZK() {
-			var myHeaders = new Headers();
+			let myHeaders = new Headers();
 			myHeaders.append("apikey", this.apiKey);
 
-			var requestOptions = {
+			let requestOptions = {
 				method: 'GET',
 				redirect: 'follow',
 				headers: myHeaders
 			};
 
-			var apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=GBP&amount=" + this.amount;
+			let apiUrl = "https://api.apilayer.com/exchangerates_data/convert?to=CZK&from=GBP&amount=" + this.amount;
 
 			fetch(apiUrl, requestOptions)
 				.then(response => response.json())
-				.then(result => {
-					this.gbptoczk = (result.success == true) ? result.result : 0;
+				.then((result) => {
+					this.gbptoczk = result.success == true ? result.result : 0;
+					if (result.error) {
+						this.errors.push(result.error.message);
+						this.isError = true;
+					}
+					this.btnDisabled = false;
 				})
-				.catch(error => {
-					this.errors.push(error.message)
+				.catch((error) => {
+					this.errors.push(error.message);
+					this.isError = true;
+					this.btnDisabled = false;
 				});
-		},
+		}
+	},
+	mounted() {
+		setInterval(() => {
+			this.getExchangeRates()
+		}, 60000 );
 	}
 };
 

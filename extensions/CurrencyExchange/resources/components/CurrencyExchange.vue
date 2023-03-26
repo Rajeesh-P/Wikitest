@@ -1,54 +1,81 @@
 <template>
 	<div>
 		<header>
-			<h1>Currency Demo</h1>
+			<h1>Currency exchange rate</h1>
 		</header>
 
 		<main class="sandbox-main">
-			<div>
-				<label for="amount">Amount</label>
-				<input v-model="amount" placeholder="Enter the amount" />
-			</div>
-			<div>
-				<label for="usdtoczk">USD to CZK</label>
-				<input v-model="usdtoczk" />
-			</div>
-			<div>
-				<label for="eurtoczk">EUR to CZK</label>
-				<input v-model="eurtoczk" />
-			</div>
-			<div>
-				<label for="gbptoczk">GBP to CZK</label>
-				<input v-model="gbptoczk" />
-			</div>
-			<div>
-				<button @click="getExchangeRates">Show</button>
-			</div>
+			<cdx-card>
+				<template #description>
+					<div class="amount-div">
+						<label class="amount-label" for="amount">Amount</label>
+						<input class="amount-text" v-model="amount" placeholder="Enter the amount" />
+						<cdx-button @click="getExchangeRates" class="btn" action="progressive" weight="primary">Display</cdx-button>
+					</div>
+					<div>
+						<table>
+							<thead>
+								<tr>
+									<th>From</th>
+									<th>CZK</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>USD</td>
+									<td>{{ usdtoczk }}</td>
+								</tr>
+								<tr>
+									<td>EUR</td>
+									<td>{{ eurtoczk }}</td>
+								</tr>
+								<tr>
+									<td>GBP</td>
+									<td>{{ gbptoczk }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</template>
+			</cdx-card>
 		</main>
 	</div>
 </template>
 
 <script>
 
+const { CdxButton, CdxCard } = require( '@wikimedia/codex' );
+const { defineComponent } = require( 'vue' );
+
+
 module.exports = exports = {
 	name: 'CurrencyExchange',
+	components:{
+		CdxButton,
+		CdxCard,
+		defineComponent
+	},
 	data() {
 		return {
 			amount: 0,
 			usdtoczk: 0,
 			eurtoczk: 0,
 			gbptoczk: 0,
-			apiKey: "nWGZPnOhKSFp72bS5E3KsO8DMScc5AS7"
+			apiKey: "nWGZPnOhKSFp72bS5E3KsO8DMScc5AS7",
+			errors: []
 		};
+	},
+	mounted() {
+		setInterval(() => {
+			this.getExchangeRates()
+		}, 60000);
 	},
 	methods:{
 		getExchangeRates() {
 			if(this.amount != 0) {
-				setInterval(() => {
-					this.getExchangeRateforUSDToCZK()
-					this.getExchangeRateforEURToCZK()
-					this.getExchangeRateforGBPToCZK()
-				}, 60000);
+				this.getExchangeRateforUSDToCZK()
+				this.getExchangeRateforEURToCZK()
+				this.getExchangeRateforGBPToCZK()
 			}
 		},
 
@@ -70,7 +97,7 @@ module.exports = exports = {
 					this.usdtoczk = (result.success == true) ? result.result : 0;
 				})
 				.catch(error => {
-					this.error = error.message
+					this.errors.push(error.message)
 				});
 		},
 
@@ -92,7 +119,7 @@ module.exports = exports = {
 					this.eurtoczk = (result.success == true) ? result.result : 0;
 				})
 				.catch(error => {
-					this.error = error.message
+					this.errors.push(error.message)
 				});
 		},
 
@@ -114,7 +141,7 @@ module.exports = exports = {
 					this.gbptoczk = (result.success == true) ? result.result : 0;
 				})
 				.catch(error => {
-					this.error = error.message
+					this.errors.push(error.message)
 				});
 		},
 	}
@@ -124,6 +151,49 @@ module.exports = exports = {
 
 <style>
 .sandbox-main {
-	max-width: 500px;
+	max-width: 700px;
 }
+.cdx-card {
+	width: 525px;
+}
+.btn {
+	margin-left: 10px;
+	height: 40px;
+}
+.amount-div {
+	padding: 10px;
+}
+.amount-label {
+	padding: 10px;
+}
+.amount-text {
+	padding: 10px;
+	width: 100px;
+    text-align: center;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin: auto;
+  width: 500px;
+}
+
+th {
+  padding: 10px 20px;
+  border: solid 1px;
+}
+
+td {
+  padding: 20px;
+  border: solid 1px;
+}
+
+tbody {
+	text-align: center;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: rgb(222, 226, 230);
+}
+
 </style>

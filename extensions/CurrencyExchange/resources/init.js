@@ -7,6 +7,5 @@
 	} );
 
 	Vue.createMwApp( App )
-		.use(Bootstrap)
 		.mount( '#vue-root' );
 }() );

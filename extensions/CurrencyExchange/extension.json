@@ -47,7 +47,8 @@
 		},
 		"ext.currencyExchange.components": {
 			"dependencies": [
-				"mediawiki.language.names"
+				"mediawiki.language.names",
+				"@wikimedia/codex"
 			],
 			"messages": [
 				"vuetest-app-welcome",

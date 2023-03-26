@@ -4,7 +4,7 @@ const App = require( './CurrencyExchange.vue' );
 describe( 'App', () => {
 	const wrapper = VueTestUtils.shallowMount( App );
 
-	it( 'contains a p element', () => {
-		expect( wrapper.find( 'p' ).exists() ).toBe( true );
+	it( 'contains a h1 element', () => {
+		expect( wrapper.find( 'h1' ).exists() ).toBe( true );
 	} );
 } );

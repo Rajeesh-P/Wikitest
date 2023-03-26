@@ -98,7 +98,10 @@ module.exports = exports = {
 				this.getExchangeRateforGBPToCZK()
 			} else {
 				this.isError = true;
-				this.errors.push("Enter number for currency")
+				this.errors.push("Enter number for currency");
+				this.usdtoczk = 0;
+				this.eurtoczk = 0;
+				this.gbptoczk = 0;
 				this.btnDisabled = false;
 			}
 		},
